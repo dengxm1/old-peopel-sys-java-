@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.OldpeopleMapper">
+        <sql id="ifDemo">
+            <if test="p_name !=null and p_name !=''">
+                and p_name =#{p_name}
+            </if>
+            <if test="id_card !=null and id_card !=''">
+                and id_card =#{id_card}
+            </if>
+            <if test="relation_name !=null and relation_name !=''">
+                and relation_name =#{relation_name}
+            </if>
+        </sql>
+    <select id="selectBypage" parameterType="OldpeoplePage" resultType="Oldpeople">
+      SELECT * from t_oldpeople
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+    </select>
+        <select id="getCount" resultType="Integer" parameterType="OldpeoplePage">
+            SELECT count(*) from t_oldpeople
+            <where>
+                <include refid="ifDemo"></include>
+            </where>
+        </select>
+<delete id="delete" parameterType="Integer">
+    DELETE FROM t_oldpeople WHERE id=#{id}
+</delete>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="p_name!=null and p_name!=''">
+                p_name,
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex,
+            </if>
+            <if test="age!=null and age!=''">
+                age,
+            </if>
+            <if test="nation!=null and nation!=''">
+                nation,
+            </if>
+            <if test="id_card!=null and id_card!=''">
+                id_card,
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+            <if test="register_time!=null">
+                register_time,
+            </if>
+            <if test="floor_serialNumber!=null and floor_serialNumber!=''">
+                floor_serialNumber,
+            </if>
+            <if test="room_serialNumber!=null and room_serialNumber!=''">
+                room_serialNumber,
+            </if>
+            <if test="room_type!=null and room_type!=''">
+                room_type,
+            </if>
+            <if test="relation_name!=null and relation_name!=''">
+                relation_name,
+            </if>
+            <if test="relation_phone!=null and relation_phone!=''">
+                relation_phone,
+            </if>
+            <if test="address!=null and address!=''">
+                address,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="p_name!=null and p_name!=''">
+                #{p_name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                #{sex},
+            </if>
+            <if test="age!=null and age!=''">
+                #{age},
+            </if>
+            <if test="nation!=null and nation!=''">
+                #{nation},
+            </if>
+            <if test="id_card!=null and id_card!=''">
+                #{id_card},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="register_time!=null">
+                #{register_time},
+            </if>
+            <if test="floor_serialNumber!=null and floor_serialNumber!=''">
+                #{floor_serialNumber},
+            </if>
+            <if test="room_serialNumber!=null and room_serialNumber!=''">
+                #{room_serialNumber},
+            </if>
+            <if test="room_type!=null and room_type!=''">
+                #{room_type},
+            </if>
+            <if test="relation_name!=null and relation_name!=''">
+                #{relation_name},
+            </if>
+            <if test="relation_phone!=null and relation_phone!=''">
+                #{relation_phone},
+            </if>
+            <if test="address!=null and address!=''">
+                #{address},
+            </if>
+        </trim>
+    </sql>
+    <insert id="add" parameterType="Oldpeople">
+        insert into t_oldpeople(<include refid="addKey"/>)
+        VALUES(<include refid="addValues"/>)
+    </insert>
+    <update id="update" parameterType="Oldpeople">
+        UPDATE t_oldpeople SET p_name=#{p_name},sex=#{sex},age=#{age},nation=#{nation},id_card=#{id_card},phone=#{phone},register_time=#{register_time},floor_serialNumber=#{floor_serialNumber},room_serialNumber=#{room_serialNumber},room_type=#{room_type},relation_name=#{relation_name},relation_phone=#{relation_phone},address=#{address}
+        WHERE id=#{id}
+    </update>
+</mapper>

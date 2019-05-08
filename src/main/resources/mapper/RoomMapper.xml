@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.RoomMapper">
+    <sql id="ifDemo">
+        <if test="floor_serialNumber !=null and floor_serialNumber !=''">
+            and floor_serialNumber = #{floor_serialNumber}
+        </if>
+        <if test="room_serialNumber !=null and room_serialNumber !=''">
+            and room_serialNumber =#{room_serialNumber}
+        </if>
+        <if test="room_type !=null and room_type !=''">
+            and room_type =#{room_type}
+        </if>
+        <if test="empty_bed !=null and empty_bed !=''">
+            and empty_bed =#{empty_bed}
+        </if>
+    </sql>
+    <select id="selectBypage" resultType="Room" parameterType="RoomPage">
+        select * from t_room
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+       limit #{start},#{size}
+    </select>
+    <select id="roomCount" resultType="Integer" parameterType="RoomPage">
+    select count(*) from t_room
+    <where>
+        <include refid="ifDemo"></include>
+    </where>
+    </select>
+    <update id="updateRoom" parameterType="Room">
+        update t_room set floor_serialNumber=#{floor_serialNumber},room_serialNumber=#{room_serialNumber},room_type=#{room_type},people_amount=#{people_amount},empty_bed=#{empty_bed} WHERE id=#{id}
+    </update>
+   <delete id="deleteRoom" parameterType="Integer">
+       DELETE from t_room WHERE id=#{id}
+   </delete>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="floor_serialNumber!=null and floor_serialNumber!=''">
+            floor_serialNumber,
+        </if>
+            <if test="room_serialNumber!=null and room_serialNumber!=''">
+              room_serialNumber,
+            </if>
+            <if test="room_type!=null and room_type!=''">
+                room_type,
+            </if>
+
+            <if test="people_amount!=null and people_amount!=''">
+                people_amount,
+            </if>
+            <if test="empty_bed!=null and empty_bed!=''">
+                empty_bed,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="floor_serialNumber!=null and floor_serialNumber!=''">
+                #{floor_serialNumber},
+            </if>
+            <if test="room_serialNumber!=null and room_serialNumber!=''">
+                #{room_serialNumber},
+            </if>
+            <if test="room_type!=null and room_type!=''">
+                #{room_type},
+            </if>
+
+            <if test="people_amount!=null and people_amount!=''">
+                #{people_amount},
+            </if>
+            <if test="empty_bed!=null and empty_bed!=''">
+                #{empty_bed},
+            </if>
+        </trim>
+    </sql>
+    <insert id="addRoom" parameterType="Room">
+        insert into t_room(<include refid="addKey"/>)
+        VALUES(<include refid="addValues"/>)
+    </insert>
+</mapper>

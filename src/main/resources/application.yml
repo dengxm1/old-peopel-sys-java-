@@ -1,11 +1,13 @@
 server:
   port: 9999
+  servlet:
+    context-path: /api/
 spring:
   datasource:
-    driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/test?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/old_people_sys?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
     username: root
-    password: 123456
+    password: 123456789
   jpa:
     database: mysql
 mybatis:
@@ -13,3 +15,5 @@ mybatis:
   mapper-locations: classpath*:mapper/*.xml
   #起别名。可省略写mybatis的xml中的resultType的全路径
   type-aliases-package: com.example.demo.domain
+#logging:
+#  config: classpath:log/log4j2-${app.env}.xml

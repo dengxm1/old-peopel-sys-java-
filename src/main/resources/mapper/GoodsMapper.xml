@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.GoodsMapper">
+    <sql id="ifDemo">
+        <if test="goods_serialNumber !=null and goods_serialNumber !=''">
+            and goods_serialNumber = #{goods_serialNumber}
+        </if>
+        <if test="goods_name !=null and goods_name !=''">
+            and goods_name =#{goods_name}
+        </if>
+        <if test="goods_type !=null and goods_type !=''">
+            and goods_type =#{goods_type}
+        </if>
+    </sql>
+<select id="selectBypage" parameterType="GoodsPage" resultType="Goods">
+    select * from t_goods
+    <where>
+        <include refid="ifDemo"></include>
+    </where>
+    limit #{start},#{size}
+</select>
+    <select id="getCount" resultType="Integer" parameterType="GoodsPage">
+        SELECT count(*) FROM t_goods
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+    </select>
+    <update id="updateGoods" parameterType="Goods">
+        update t_goods set goods_serialNumber=#{goods_serialNumber},goods_name=#{goods_name},goods_type=#{goods_type},goods_amount=#{goods_amount},goods_price=#{goods_price} WHERE id=#{id}
+    </update>
+    <delete id="deleteGoods" parameterType="Integer">
+        DELETE FROM t_goods WHERE id=#{id}
+    </delete>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="goods_serialNumber!=null and goods_serialNumber!=''">
+                goods_serialNumber,
+            </if>
+            <if test="goods_name!=null and goods_name!=''">
+                goods_name,
+            </if>
+            <if test="goods_type!=null and goods_type!=''">
+                goods_type,
+            </if>
+
+            <if test="goods_amount!=null and goods_amount!=''">
+                goods_amount,
+            </if>
+            <if test="goods_price!=null and goods_price!=''">
+                goods_price,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="goods_serialNumber!=null and goods_serialNumber!=''">
+                #{goods_serialNumber},
+            </if>
+            <if test="goods_name!=null and goods_name!=''">
+                #{goods_name},
+            </if>
+            <if test="goods_type!=null and goods_type!=''">
+                #{goods_type},
+            </if>
+
+            <if test="goods_amount!=null and goods_amount!=''">
+                #{goods_amount},
+            </if>
+            <if test="goods_price!=null and goods_price!=''">
+                #{goods_price},
+            </if>
+        </trim>
+    </sql>
+    <insert id="addGoods" parameterType="Goods">
+        insert into t_goods(<include refid="addKey"/>)
+        VALUES(<include refid="addValues"/>)
+    </insert>
+</mapper>

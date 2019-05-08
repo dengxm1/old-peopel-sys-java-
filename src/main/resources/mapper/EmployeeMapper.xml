@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.EmployeeMapper">
+    <sql id="ifDemo">
+        <if test="e_name !=null and e_name !=''">
+            and e_name =#{e_name}
+        </if>
+        <if test="id_card !=null and id_card !=''">
+            and id_card =#{id_card}
+        </if>
+        <if test="work_type !=null and work_type !=''">
+            and work_type =#{work_type}
+        </if>
+    </sql>
+    <select id="selectBypage" parameterType="EmployeePage" resultType="Employee">
+        SELECT * FROM t_employee
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+       limit #{start},#{size}
+    </select>
+    <select id="getCount" resultType="Integer" parameterType="EmployeePage">
+    SELECT count(*) from t_employee
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+</select>
+    <update id="updateEmployee" parameterType="Employee">
+        update t_employee  SET e_name=#{e_name},sex=#{sex},age=#{age},nation=#{nation},id_card=#{id_card},address=#{address},phone=#{phone},work_type=#{work_type},entry_time=#{entry_time},salary=#{salary} WHERE id=#{id}
+    </update>
+    <delete id="deleteEmployee" parameterType="Integer">
+        DELETE FROM t_employee WHERE id=#{id}
+    </delete>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="e_name!=null and e_name!=''">
+                e_name,
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex,
+            </if>
+            <if test="age!=null and age!=''">
+                age,
+            </if>
+
+            <if test="nation!=null and nation!=''">
+                nation,
+            </if>
+            <if test="id_card!=null and id_card!=''">
+                id_card,
+            </if>
+            <if test="address!=null and address!=''">
+                address,
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+
+            <if test="work_type!=null and work_type!=''">
+                work_type,
+            </if>
+            <if test="entry_time!=null">
+              entry_time,
+            </if>
+            <if test="salary!=null and salary!=''">
+                salary,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="e_name!=null and e_name!=''">
+                #{e_name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                #{sex},
+            </if>
+            <if test="age!=null and age!=''">
+                #{age},
+            </if>
+
+            <if test="nation!=null and nation!=''">
+                #{nation},
+            </if>
+            <if test="id_card!=null and id_card!=''">
+                #{id_card},
+            </if>
+            <if test="address!=null and address!=''">
+                #{address},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="work_type!=null and work_type!=''">
+                #{work_type},
+            </if>
+            <if test="entry_time!=null">
+                #{entry_time},
+            </if>
+            <if test="salary!=null and salary!=''">
+                #{salary},
+            </if>
+        </trim>
+    </sql>
+    <insert id="addEmployee" parameterType="Employee">
+        insert into t_employee(<include refid="addKey"/>)
+        VALUES(<include refid="addValues"/>)
+    </insert>
+
+</mapper>
