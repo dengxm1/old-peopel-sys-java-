@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.HospitalMapper">
+    <sql id="ifDemo">
+        <if test="province !=null and province !=''">
+            and province =#{province}
+        </if>
+        <if test="city !=null and city !=''">
+            and city =#{city}
+        </if>
+        <if test="area !=null and area !=''">
+            and area =#{area}
+        </if>
+        <if test="level !=null and level !=''">
+            and level =#{level}
+        </if>
+        <if test="feature !=null and feature !=''">
+            and feature like CONCAT('%',#{feature},'%')
+        </if>
+    </sql>
+    <select id="getHospital" parameterType="HospitalPage" resultType="Hospital">
+        SELECT * from t_hospital
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+        limit #{start},#{size}
+    </select>
+    <select id="getCount" parameterType="HospitalPage" resultType="Integer">
+        SELECT count(*) from  t_hospital
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+    </select>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="h_name!=null and h_name!=''">
+                h_name,
+            </if>
+            <if test="alias!=null and alias!=''">
+                alias,
+            </if>
+            <if test="province!=null and province!=''">
+                province,
+            </if>
+
+            <if test="city!=null and city!=''">
+                city,
+            </if>
+            <if test="area!=null and area!=''">
+                area,
+            </if>
+            <if test="address!=null and address!=''">
+                address,
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+
+            <if test="type!=null and type!=''">
+                type,
+            </if>
+            <if test="level!=null and level!=''">
+                level,
+            </if>
+            <if test="picture!=null and picture!=''">
+                picture,
+            </if>
+            <if test="feature!=null and feature!=''">
+                feature,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="h_name!=null and h_name!=''">
+                #{h_name},
+            </if>
+            <if test="province!=null and province!=''">
+                #{province},
+            </if>
+            <if test="city!=null and city!=''">
+                #{city},
+            </if>
+
+            <if test="area!=null and area!=''">
+                #{area},
+            </if>
+            <if test="address!=null and address!=''">
+                #{address},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="type!=null and type!=''">
+                #{type},
+            </if>
+            <if test="level!=null and level!=''">
+                #{level},
+            </if>
+            <if test="picture!=null and picture!=''">
+                #{picture},
+            </if>
+            <if test="feature!=null and feature!=''">
+                #{feature},
+            </if>
+        </trim>
+    </sql>
+    <insert id="add" parameterType="Hospital">
+        insert into t_hospital(<include refid="addKey"/>)
+        VALUES(<include refid="addValues"/>)
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from t_hospital where id=#{id}
+    </delete>
+    <update id="update" parameterType="Hospital">
+        update t_hospital set y_name=#{h_name},alias=#{alias},province=#{province},city=#{city},area=#{area},address=#{address},phone=#{phone},
+type=#{type},level=#{level},picture=#{picture},feature=#{feature}</update></mapper>

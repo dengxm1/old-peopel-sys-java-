@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.CommentsMapper">
+    <insert id="add"  parameterType="Comments">
+     insert into t_comments(cname,comment) values (#{cname},#{comment})
+   </insert>
+    <select id="selectBypage" resultType="Comments" parameterType="CommentsPage">
+      SELECT * from t_comments limit #{start},#{size}
+  </select>
+    <select id="getCount" parameterType="CommentsPage" resultType="Integer">
+        SELECT count(*) from  t_comments
+    </select>
+    <delete id="delete" parameterType="String">
+        delete from t_comments where cname=#{cname}
+    </delete>
+</mapper>

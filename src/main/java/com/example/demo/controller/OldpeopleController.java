@@ -14,23 +14,21 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("oldpeple")
-@CrossOrigin
+@RequestMapping("/oldpeople")
 public class OldpeopleController {
 
   @Autowired
   private OldpeopleService oldpeopleService;
 
-  @RequestMapping(value = "getPeople",method = RequestMethod.POST)
-  public Map<String,Object> selectBypage(@RequestBody OldpeoplePage page){
-    Map<String ,Object> map=new HashMap<String ,Object>();
+  @RequestMapping(value = "/getOldpeople",method = RequestMethod.POST)
+  public Map<String,Object> getOldpeople(@RequestBody OldpeoplePage page){
+    Map<String ,Object> map=new HashMap<String, Object>();
     int size=page.getSize();
     if(size==0){
       page.setSize(10);
     }
     page.calculateStart();
-    System.out.println(page.getStart());
-    List<Oldpeople> oldpeople=oldpeopleService.selectBypage(page);
+    List<Oldpeople> oldpeople=oldpeopleService.getOldpeople(page);
     int count=getCount(page);
     map.put("rows",oldpeople);
     map.put("total",count);
@@ -40,35 +38,36 @@ public class OldpeopleController {
 
   public int getCount(OldpeoplePage page){
     return oldpeopleService.getCount(page);
-  }
+}
 
 
-  @RequestMapping(value = "add",method = RequestMethod.POST)
-  public void add(@RequestBody Oldpeople oldpeople){
-    SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
-    if(oldpeople.getRegister_time()!=null){
-      try {
-        Date data=f.parse(f.format(oldpeople.getRegister_time()));
-        oldpeople.setRegister_time(data);
-      } catch(ParseException px) {
-        px.printStackTrace();
-      }
-    }
-
+  @RequestMapping(value = "/add",method = RequestMethod.POST)
+public void add(@RequestBody Oldpeople oldpeople){
     oldpeopleService.add(oldpeople);
-  }
+}
 
 
-  @RequestMapping(value = "/{id}",method = RequestMethod.DELETE)
-  public void delete(@PathVariable("id")int id){
+  @RequestMapping(value = "delete/{id}",method = RequestMethod.DELETE)
+public void delete(@PathVariable("id") int id){
     oldpeopleService.delete(id);
+}
+
+
+  @RequestMapping(value = "/update",method = RequestMethod.POST)
+public void update(@RequestBody Oldpeople oldpeople){
+  SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+  if(oldpeople.getLastvisit_time()!=null){
+    try {
+      Date data=f.parse(f.format(oldpeople.getLastvisit_time()));
+      System.out.println(data);
+      oldpeople.setLastvisit_time(data);
+      System.out.println(oldpeople.getLastvisit_time());
+    } catch(ParseException px) {
+      px.printStackTrace();
+    }
   }
-
-
-  @RequestMapping(value = "update",method = RequestMethod.PUT)
-  public void update(@RequestBody Oldpeople oldpeople){
     oldpeopleService.update(oldpeople);
-  }
+}
 
 
 }

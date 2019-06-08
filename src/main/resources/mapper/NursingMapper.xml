@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.NursingMapper">
+    <sql id="ifDemo">
+        <if test="shuxiang !=null and shuxiang !=''">
+            and shuxiang =#{shuxiang}
+        </if>
+        <if test="native_place !=null and native_place !=''">
+            and native_place =#{native_place}
+        </if>
+        <if test="low_age !=null and top_age==null">
+            and age &lt;#{low_age}
+        </if>
+        <if test="top_age!=null and low_age==null">
+            and age &gt;=#{top_age}
+        </if>
+        <if test="top_age !=null and low_age!=null">
+            and age &gt;=#{low_age} and age &lt;#{top_age}
+        </if>
+        <if test="low_salary!=null and low_salary!=''">
+            and low_salary &gt;=#{low_salary}
+        </if>
+        <if test="top_salary!=null and top_salary!=''">
+            and top_salary &lt;=#{top_salary}
+        </if>
+    </sql>
+    <select id="getNursing" parameterType="NursingPage" resultType="Nursing">
+        SELECT * from t_nursing
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+        limit #{start},#{size}
+    </select>
+    <select id="getCount" parameterType="NursingPage" resultType="Integer">
+        SELECT count(*) from  t_nursing
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+    </select>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="n_name!=null and n_name!=''">
+                n_name,
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex,
+            </if>
+            <if test="age!=null and age!=''">
+                age,
+            </if>
+
+            <if test="native_place!=null and native_place!=''">
+                native_place,
+            </if>
+            <if test="address!=null and address!=''">
+                address,
+            </if>
+            <if test="update_time!=null ">
+                update_time,
+            </if>
+            <if test="work_experience!=null and work_experience!=''">
+                work_experience,
+            </if>
+
+            <if test="hope_salary!=null and hope_salary!=''">
+                hope_salary,
+            </if>
+            <if test="shuxiang!=null and shuxiang!=''">
+                shuxiang,
+            </if>
+            <if test="nation!=null and nation!=''">
+                nation,
+            </if>
+            <if test="height!=null and height!=''">
+                height,
+            </if>
+            <if test="weight!=null and weight!=''">
+                weight,
+            </if>
+            <if test="language!=null and language!=''">
+                language,
+            </if>
+            <if test="main_tasks!=null and main_tasks!=''">
+                main_tasks,
+            </if>
+            <if test="picture!=null and picture!=''">
+                picture,
+            </if>
+            <if test="tel!=null and tel!=''">
+                tel,
+            </if>
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+            <if test="intro!=null and intro!=''">
+                intro,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="n_name!=null and n_name!=''">
+                #{n_name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                #{sex},
+            </if>
+            <if test="age!=null and age!=''">
+                #{age},
+            </if>
+
+            <if test="native_place!=null and native_place!=''">
+                #{native_place},
+            </if>
+            <if test="address!=null and address!=''">
+                #{address},
+            </if>
+            <if test="update_time!=null ">
+                #{update_time},
+            </if>
+            <if test="work_experience!=null and work_experience!=''">
+                #{work_experience},
+            </if>
+
+            <if test="hope_salary!=null and hope_salary!=''">
+                #{hope_salary},
+            </if>
+            <if test="shuxiang!=null and shuxiang!=''">
+                #{shuxiang},
+            </if>
+            <if test="nation!=null and nation!=''">
+                #{nation},
+            </if>
+            <if test="height!=null and height!=''">
+                #{height},
+            </if>
+            <if test="weight!=null and weight!=''">
+                #{weight},
+            </if>
+            <if test="language!=null and language!=''">
+                #{language},
+            </if>
+            <if test="main_tasks!=null and main_tasks!=''">
+                #{main_tasks},
+            </if>
+            <if test="picture!=null and picture!=''">
+                #{picture},
+            </if>
+            <if test="tel!=null and tel!=''">
+                #{tel},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="intro!=null and intro!=''">
+                #{intro},
+            </if>
+        </trim>
+    </sql>
+    <insert id="add" parameterType="Nursing">
+        insert into t_nursing(<include refid="addKey"/>)
+        VALUES(<include refid="addValues"/>)
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from t_nursing where id=#{id}
+    </delete>
+    <update id="update" parameterType="Nursing">
+        update t_nursing set n_name=#{n_name},sex=#{sex},age=#{age},native_place=#{native_place},address=#{address},update_time=#{update_time},work_experience=#{work_experience},
+hope_salary=#{hope_salary},shuxiang=#{shuxiang},nation=#{nation},height=#{height},weight=#{weight},language=#{language},main_tasks=#{main_tasks},picture=#{picture},tel=#{tel},phone=#{phone},intro=#{intro} where id=#{id}
+</update></mapper>

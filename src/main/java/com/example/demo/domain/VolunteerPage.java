@@ -1,13 +1,24 @@
 package com.example.demo.domain;
 
-public class OldpeoplePage {
+import javax.xml.crypto.Data;
+
+public class VolunteerPage {
   private int pageNo;
   private int size;
   private int start;
-  private String p_name;
-  private String id_card;
+  private String province;
+  private String city;
+  private String area;
   public void calculateStart(){
     start=(pageNo-1)*size;
+  }
+
+  public String getProvince() {
+    return province;
+  }
+
+  public void setProvince(String province) {
+    this.province = province;
   }
 
   public int getPageNo() {
@@ -34,19 +45,20 @@ public class OldpeoplePage {
     this.start = start;
   }
 
-  public String getP_name() {
-    return p_name;
+  public String getCity() {
+    return city;
   }
 
-  public void setP_name(String p_name) {
-    this.p_name = p_name;
+  public void setCity(String city) {
+    this.city = city;
   }
 
-  public String getId_card() {
-    return id_card;
+  public String getArea() {
+    return area;
   }
 
-  public void setId_card(String id_card) {
-    this.id_card = id_card;
+  public void setArea(String area) {
+    this.area = area;
   }
+
 }

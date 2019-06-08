@@ -14,8 +14,8 @@ public class OldpeopleServiceImpl implements OldpeopleService {
   @Autowired
   private OldpeopleMapper oldpeopleMapper;
   @Override
-  public List<Oldpeople> selectBypage(OldpeoplePage page) {
-    return oldpeopleMapper.selectBypage(page);
+  public List<Oldpeople> getOldpeople(OldpeoplePage oldpeoplePage) {
+    return oldpeopleMapper.getOldpeople(oldpeoplePage);
   }
 
   @Override
@@ -34,7 +34,7 @@ public class OldpeopleServiceImpl implements OldpeopleService {
   }
 
   @Override
-  public int getCount(OldpeoplePage page) {
-    return oldpeopleMapper.getCount(page);
+  public int getCount(OldpeoplePage oldpeoplePage) {
+    return oldpeopleMapper.getCount(oldpeoplePage);
   }
 }

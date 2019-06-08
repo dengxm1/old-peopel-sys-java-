@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.YlaoyuanMapper">
+    <sql id="ifDemo">
+        <if test="province !=null and province !=''">
+            and province =#{province}
+        </if>
+        <if test="city !=null and city !=''">
+            and city =#{city}
+        </if>
+        <if test="area !=null and area !=''">
+            and area =#{area}
+        </if>
+        <if test="low_bed !=null and top_bed==null">
+        and bed_number &gt;=#{low_bed}
+    </if>
+        <if test="top_bed !=null and low_bed==null">
+            and bed_number &lt;#{top_bed}
+        </if>
+        <if test="top_bed !=null and low_bed!=null">
+            and bed_number &gt;=#{low_bed} and bed_number &lt;=#{top_bed}
+        </if>
+        <if test="bottom_price !=null and bottom_price !=''">
+            and bottom_price &gt;=#{bottom_price}
+        </if>
+        <if test="top_price !=null and top_price !=''">
+            and top_price  &lt;= #{top_price}
+        </if>
+        <if test="accept_object !=null and accept_object !=''">
+          and  accept_object like CONCAT('%',#{accept_object},'%')
+        </if>
+        <if test="feature_serve !=null and feature_serve !=''">
+          and  feature_serve like CONCAT('%',#{feature_serve},'%')
+        </if>
+    </sql>
+   <select id="getYlaoyuan" parameterType="YlaoyuanPage" resultType="Ylaoyuan">
+    SELECT * from t_ylaoyuan
+       <where>
+           <include refid="ifDemo"></include>
+       </where>
+       limit #{start},#{size}
+   </select>
+<select id="getCount" parameterType="YlaoyuanPage" resultType="Integer">
+     SELECT count(*) from  t_ylaoyuan
+     <where>
+         <include refid="ifDemo"></include>
+     </where>
+</select>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="y_name!=null and y_name!=''">
+                y_name,
+            </if>
+            <if test="province!=null and province!=''">
+                province,
+            </if>
+            <if test="city!=null and city!=''">
+                city,
+            </if>
+
+            <if test="area!=null and area!=''">
+                area,
+            </if>
+            <if test="address!=null and address!=''">
+                address,
+            </if>
+            <if test="bed_number!=null and bed_number!=''">
+                bed_number,
+            </if>
+            <if test="bottom_price!=null and bottom_price!=''">
+                bottom_price,
+            </if>
+
+            <if test="top_price!=null and top_price!=''">
+                top_price,
+            </if>
+            <if test="accept_object!=null and accept_object!=''">
+                accept_object,
+            </if>
+            <if test="feature_serve!=null and feature_serve!=''">
+                feature_serve,
+            </if>
+            <if test="picture!=null and picture!=''">
+                picture,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="y_name!=null and y_name!=''">
+                #{y_name},
+            </if>
+            <if test="province!=null and province!=''">
+                #{province},
+            </if>
+            <if test="city!=null and city!=''">
+                #{city},
+            </if>
+
+            <if test="area!=null and area!=''">
+                #{area},
+            </if>
+            <if test="address!=null and address!=''">
+                #{address},
+            </if>
+            <if test="bed_number!=null and bed_number!=''">
+                #{bed_number},
+            </if>
+            <if test="bottom_price!=null and bottom_price!=''">
+                #{bottom_price},
+            </if>
+            <if test="top_price!=null and top_price!=''">
+                #{top_price},
+            </if>
+            <if test="accept_object!=null and accept_object!=''">
+                #{accept_object},
+            </if>
+            <if test="feature_serve!=null and feature_serve!=''">
+                #{feature_serve},
+            </if>
+            <if test="picture!=null and picture!=''">
+                #{picture},
+            </if>
+        </trim>
+    </sql>
+   <insert id="addInfo" parameterType="Ylaoyuan">
+       insert into t_ylaoyuan(<include refid="addKey"/>)
+       VALUES(<include refid="addValues"/>)
+   </insert>
+    <delete id="deleteInfo" parameterType="Integer">
+        delete from t_ylaoyuan where id=#{id}
+    </delete>
+    <update id="updateInfo" parameterType="Ylaoyuan">
+        update t_ylaoyuan set y_name=#{y_name},province=#{province},city=#{city},area=#{area},address=#{address},bed_number=#{bed_number},bottom_price=#{bottom_price},
+top_price=#{top_price},accept_object=#{accept_object},feature_serve=#{feature_serve},picture=#{picture} where id=#{id}</update></mapper>

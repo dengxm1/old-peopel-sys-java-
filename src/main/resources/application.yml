@@ -5,7 +5,7 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/old_people_sys?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/old_people_sys?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: root
     password: 123456789
   jpa:
@@ -17,3 +17,9 @@ mybatis:
   type-aliases-package: com.example.demo.domain
 #logging:
 #  config: classpath:log/log4j2-${app.env}.xml
+#静态资源对外暴露的访问路径
+file:
+  staticAccessPath: /file/**
+  #文件上传目录（注意Linux和Windows上的目录结构不同）
+  #file.uploadFolder=/root/uploadFiles/
+  uploadFolder: e://JavaExploit/

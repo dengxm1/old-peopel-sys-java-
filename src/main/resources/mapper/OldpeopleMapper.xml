@@ -1,36 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.demo.dao.OldpeopleMapper">
-        <sql id="ifDemo">
-            <if test="p_name !=null and p_name !=''">
-                and p_name =#{p_name}
-            </if>
-            <if test="id_card !=null and id_card !=''">
-                and id_card =#{id_card}
-            </if>
-            <if test="relation_name !=null and relation_name !=''">
-                and relation_name =#{relation_name}
-            </if>
-        </sql>
-    <select id="selectBypage" parameterType="OldpeoplePage" resultType="Oldpeople">
-      SELECT * from t_oldpeople
+    <sql id="ifDemo">
+        <if test="p_name !=null and p_name !=''">
+            and p_name =#{p_name}
+        </if>
+        <if test="id_card !=null and id_card !=''">
+            and id_card =#{id_card}
+        </if>
+    </sql>
+    <select id="getOldpeople" parameterType="OldpeoplePage" resultType="Oldpeople">
+        SELECT * FROM t_oldpeople
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+        limit #{start},#{size}
+    </select>
+    <select id="getCount" resultType="Integer" parameterType="OldpeoplePage">
+        SELECT count(*) from t_oldpeople
         <where>
             <include refid="ifDemo"></include>
         </where>
     </select>
-        <select id="getCount" resultType="Integer" parameterType="OldpeoplePage">
-            SELECT count(*) from t_oldpeople
-            <where>
-                <include refid="ifDemo"></include>
-            </where>
-        </select>
-<delete id="delete" parameterType="Integer">
-    DELETE FROM t_oldpeople WHERE id=#{id}
-</delete>
+    <update id="update" parameterType="Oldpeople">
+        update t_oldpeople  SET p_name=#{p_name},id_card=#{id_card},sex=#{sex},age=#{age},home_address=#{home_address},tel=#{tel},lastvisit_time=#{lastvisit_time},linkman=#{linkman},linkman_address=#{linkman_address},linkman_tel=#{linkman_tel},picture=#{picture} WHERE id=#{id}
+    </update>
+    <delete id="delete" parameterType="Integer">
+        DELETE FROM t_oldpeople WHERE id=#{id}
+    </delete>
     <sql id="addKey">
         <trim suffixOverrides=",">
             <if test="p_name!=null and p_name!=''">
                 p_name,
+            </if>
+            <if test="id_card!=null and id_card!=''">
+                id_card,
             </if>
             <if test="sex!=null and sex!=''">
                 sex,
@@ -38,35 +42,29 @@
             <if test="age!=null and age!=''">
                 age,
             </if>
-            <if test="nation!=null and nation!=''">
-                nation,
+
+            <if test="home_address!=null and home_address!=''">
+                home_address,
             </if>
-            <if test="id_card!=null and id_card!=''">
-                id_card,
+
+            <if test="tel!=null and tel!=''">
+                tel,
             </if>
-            <if test="phone!=null and phone!=''">
-                phone,
+            <if test="lastvisit_time!=null">
+                lastvisit_time,
             </if>
-            <if test="register_time!=null">
-                register_time,
+
+            <if test="linkman!=null and linkman!=''">
+                linkman,
             </if>
-            <if test="floor_serialNumber!=null and floor_serialNumber!=''">
-                floor_serialNumber,
+            <if test="linkman_address!=null and linkman_address!=''">
+                linkman_address,
             </if>
-            <if test="room_serialNumber!=null and room_serialNumber!=''">
-                room_serialNumber,
+            <if test="linkman_tel!=null and linkman_tel!=''">
+                linkman_tel,
             </if>
-            <if test="room_type!=null and room_type!=''">
-                room_type,
-            </if>
-            <if test="relation_name!=null and relation_name!=''">
-                relation_name,
-            </if>
-            <if test="relation_phone!=null and relation_phone!=''">
-                relation_phone,
-            </if>
-            <if test="address!=null and address!=''">
-                address,
+            <if test="picture!=null and picture!=''">
+                picture,
             </if>
         </trim>
     </sql>
@@ -75,41 +73,38 @@
             <if test="p_name!=null and p_name!=''">
                 #{p_name},
             </if>
+            <if test="id_card!=null and id_card!=''">
+                #{id_card},
+            </if>
             <if test="sex!=null and sex!=''">
                 #{sex},
             </if>
             <if test="age!=null and age!=''">
                 #{age},
             </if>
-            <if test="nation!=null and nation!=''">
-                #{nation},
+
+            <if test="home_address!=null and home_address!=''">
+                #{home_address},
             </if>
-            <if test="id_card!=null and id_card!=''">
-                #{id_card},
+
+            <if test="tel!=null and tel!=''">
+                #{tel},
             </if>
-            <if test="phone!=null and phone!=''">
-                #{phone},
+            <if test="lastvisit_time!=null">
+                #{lastvisit_time},
             </if>
-            <if test="register_time!=null">
-                #{register_time},
+
+            <if test="linkman!=null and linkman!=''">
+                #{linkman},
             </if>
-            <if test="floor_serialNumber!=null and floor_serialNumber!=''">
-                #{floor_serialNumber},
+            <if test="linkman_address!=null and linkman_address!=''">
+                #{linkman_address},
             </if>
-            <if test="room_serialNumber!=null and room_serialNumber!=''">
-                #{room_serialNumber},
+            <if test="linkman_tel!=null and linkman_tel!=''">
+                #{linkman_tel},
             </if>
-            <if test="room_type!=null and room_type!=''">
-                #{room_type},
-            </if>
-            <if test="relation_name!=null and relation_name!=''">
-                #{relation_name},
-            </if>
-            <if test="relation_phone!=null and relation_phone!=''">
-                #{relation_phone},
-            </if>
-            <if test="address!=null and address!=''">
-                #{address},
+            <if test="picture!=null and picture!=''">
+                #{picture},
             </if>
         </trim>
     </sql>
@@ -117,8 +112,5 @@
         insert into t_oldpeople(<include refid="addKey"/>)
         VALUES(<include refid="addValues"/>)
     </insert>
-    <update id="update" parameterType="Oldpeople">
-        UPDATE t_oldpeople SET p_name=#{p_name},sex=#{sex},age=#{age},nation=#{nation},id_card=#{id_card},phone=#{phone},register_time=#{register_time},floor_serialNumber=#{floor_serialNumber},room_serialNumber=#{room_serialNumber},room_type=#{room_type},relation_name=#{relation_name},relation_phone=#{relation_phone},address=#{address}
-        WHERE id=#{id}
-    </update>
+
 </mapper>

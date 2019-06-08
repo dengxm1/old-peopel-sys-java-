@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.demo.dao.VolunteerMapper">
+    <sql id="ifDemo">
+        <if test="province !=null and province !=''">
+            and province =#{province}
+        </if>
+        <if test="city !=null and city !=''">
+            and city =#{city}
+        </if>
+        <if test="city !=null and city !=''">
+            and area =#{area}
+        </if>
+    </sql>
+    <select id="getVolunteer" parameterType="VolunteerPage" resultType="Volunteer">
+        SELECT * from t_volunteer
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+        order by id desc limit #{start},#{size}
+    </select>
+    <select id="getCount" parameterType="VolunteerPage" resultType="Integer">
+        SELECT count(*) from  t_volunteer
+        <where>
+            <include refid="ifDemo"></include>
+        </where>
+    </select>
+    <sql id="addKey">
+        <trim suffixOverrides=",">
+            <if test="v_name!=null and v_name!=''">
+                v_name,
+            </if>
+            <if test="sex!=null and sex!=''">
+                sex,
+            </if>
+            <if test="age!=null and age!=''">
+                age,
+            </if>
+
+            <if test="province!=null and province!=''">
+                province,
+            </if>
+            <if test="city!=null and city!=''">
+                city,
+            </if>
+            <if test="area!=null and area!=''">
+                area,
+            </if>
+            <if test="service_time!=null and service_time!=''">
+                service_time,
+            </if>
+            <if test="serve_object!=null and serve_object!=''">
+                serve_object,
+            </if>
+
+            <if test="phone!=null and phone!=''">
+                phone,
+            </if>
+            <if test="picture!=null and picture!=''">
+                picture,
+            </if>
+        </trim>
+    </sql>
+    <sql id="addValues">
+        <trim suffixOverrides=",">
+            <if test="v_name!=null and v_name!=''">
+                #{v_name},
+            </if>
+            <if test="sex!=null and sex!=''">
+                #{sex},
+            </if>
+            <if test="age!=null and age!=''">
+                #{age},
+            </if>
+
+            <if test="province!=null and province!=''">
+                #{province},
+            </if>
+            <if test="city!=null and city!=''">
+                #{city},
+            </if>
+            <if test="area!=null and area!=''">
+                #{area},
+            </if>
+            <if test="service_time!=null and service_time!=''">
+                #{service_time},
+            </if>
+            <if test="serve_object!=null and serve_object!=''">
+                #{serve_object},
+            </if>
+            <if test="phone!=null and phone!=''">
+                #{phone},
+            </if>
+            <if test="picture!=null and picture!=''">
+                #{picture},
+            </if>
+        </trim>
+    </sql>
+    <insert id="add" parameterType="Volunteer">
+        insert into t_volunteer(<include refid="addKey"/>)
+        VALUES(<include refid="addValues"/>)
+    </insert>
+    <delete id="delete" parameterType="Integer">
+        delete from t_volunteer where id=#{id}
+    </delete>
+    <update id="updateInfo" parameterType="Ylaoyuan">
+        update t_volunteer set v_name=#{v_name},sex=#{sex},age=#{age},province=#{province},city=#{city},area=#{area},service_time=#{service_time},serve_object=#{serve_object},
+phone=#{phone} where id=#{id}</update></mapper>
